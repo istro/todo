@@ -2,13 +2,13 @@
 
 # vim:filetype=sh
 if [[ "x$TODO" = x ]]; then
-  BADOOP=~/.todo.txt
+  TODO=~/.todo.txt
 else
-  BADOOP="$TODO"
+  TODO="$TODO"
 fi
 
-function badoop_usage() {
-  echo "badoop"
+function todo_usage() {
+  echo "todo:"
   echo "  -h: Print this help"
   echo "  -d: delete any todo items matching remaining arguments"
   echo "  with no flags: add the string passed in to the todo list"
@@ -16,32 +16,32 @@ function badoop_usage() {
 }
 
 # Badoop-done. Delete from todo list
-function badone() {
+function bedone() {
   # $@ is all the arguments passed in.
   # not sure what d is. Flag to delete anything that matches?
-  if [[ -f "$BADOOP" ]]; then
-    sed -i -e "/$@/d" "$BADOOP";
+  if [[ -f "$TODO" ]]; then
+    sed -i -e "/$@/d" "$TODO";
   fi
 }
 
-function badoop() {
+function todo() {
   # $# is the number of parameters passed in
   # command with no args just shows all todos
 
   if [[ $# == "0" ]]; then
-    if [[ -f "$BADOOP" ]]; then
-      cat "$BADOOP";
+    if [[ -f "$TODO" ]]; then
+      cat "$TODO";
     fi
   elif [[ $1 == "-h" ]]; then
-    badoop_usage
+    todo_usage
   elif [[ $1 == "-d" ]]; then
     shift
-    badone $@
+    bedone $@
   else
     # adding a new todo
     # $@ is a string containing all parameters
-    echo "  • $@" >> "$BADOOP"
+    echo "  • $@" >> "$TODO"
   fi
 }
 
-badoop $@
+todo $@
